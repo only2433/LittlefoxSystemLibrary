@@ -19,10 +19,13 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 		mContext 	= context;
 		mCode		= code;
 	}
+
+	abstract BaseAsync setData(Object... object);
 	
-	public void setAsyncListener (AsyncListener asyncListener)
+	public BaseAsync setAsyncListener (AsyncListener asyncListener)
 	{
 		mAsyncListener = asyncListener;
+		return this;
 	}
 	
 	@Override
