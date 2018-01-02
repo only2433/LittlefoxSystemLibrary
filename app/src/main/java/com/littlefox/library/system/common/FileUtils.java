@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -193,5 +195,32 @@ public class FileUtils {
 			
 		}
 		
+	}
+
+	public static boolean copyFile(File srcFile , File destFile)
+	{
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		try
+		{
+			inputStream = new FileInputStream(srcFile);
+			outputStream = new FileOutputStream(destFile);
+
+			byte[] buffer = new byte[4096];
+			int byteRead = 0;
+			while((byteRead = inputStream.read(buffer)) > 0)
+			{
+				outputStream.write(buffer,0,byteRead);
+			}
+			inputStream.close();
+			outputStream.close();
+		}
+		catch(Exception e)
+		{
+			Log.f("Error Message : "+ e.getMessage());
+			return false;
+		}
+
+		return true;
 	}
 }
