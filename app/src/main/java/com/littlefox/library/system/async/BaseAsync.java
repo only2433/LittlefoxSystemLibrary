@@ -34,7 +34,7 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 		
 		if(mAsyncListener != null)
 		{
-			mAsyncListener.onRunningStart();
+			mAsyncListener.onRunningStart(mCode);
 		}
 		
 		isRunning = false;
@@ -62,7 +62,7 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 		
 		if(mAsyncListener != null )
 		{
-			mAsyncListener.onRunningProgress(values[0]);
+			mAsyncListener.onRunningProgress(mCode, values[0]);
 		}
 	}
 
@@ -74,7 +74,7 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 		
 		if(mAsyncListener != null )
 		{
-			mAsyncListener.onRunningCanceled();
+			mAsyncListener.onRunningCanceled(mCode);
 		}
 	}
 	
