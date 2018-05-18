@@ -76,6 +76,8 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 		{
 			mAsyncListener.onRunningCanceled(mCode);
 		}
+
+		isRunning = false;
 	}
 	
 	
