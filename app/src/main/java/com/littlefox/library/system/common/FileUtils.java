@@ -121,7 +121,50 @@ public class FileUtils {
 		}
 		return ret;
 	}
-	
+
+	public static String getStringFromFile(File directory, String fileName)
+	{
+		String result = "";
+
+		File file = new File(directory, fileName);
+
+		if(file.exists() == false)
+		{
+			return result;
+		}
+
+		try
+		{
+			FileInputStream fileInputStream = new FileInputStream(file);
+
+			if(fileInputStream != null)
+			{
+				InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+				String receiveString ="";
+				StringBuilder stringBuilder = new StringBuilder();
+
+				while((receiveString = bufferedReader.readLine()) != null)
+				{
+					stringBuilder.append(receiveString);
+				}
+
+				inputStreamReader.close();
+				result = stringBuilder.toString();
+
+			}
+		}catch(Exception e)
+		{
+
+		}
+		Log.i("result : "+result);
+		//result = SimpleCrypto.decrypt(result);
+		//Log.i("result 2 : "+result);
+
+		return result;
+	}
+
+
 	public static String getStringFromFile(String path)
 	{
 		String result = "";
