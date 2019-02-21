@@ -17,9 +17,42 @@ import java.util.Arrays;
 
 public class FileUtils {
 
+
+	public static boolean writeFile(Object obj, File directory, String fileName)
+	{
+		if (fileName.equals("")) return false;
+		Gson gson = new Gson();
+		String json = gson.toJson(obj);
+
+		//String encriptString = SimpleCrypto.encrypt(json);
+
+		File f = new File(directory, fileName);
+		File f2 = new File(f.getParent());
+		if(!f2.exists())
+			f2.mkdirs();
+		f2 = null;
+
+		try {
+			f.createNewFile();
+			if (f.canWrite()){
+				FileOutputStream fo = new FileOutputStream(f);
+				//fo.write(encriptString.getBytes(), 0, encriptString.getBytes().length);
+				fo.write(json.getBytes(), 0, json.getBytes().length);
+				fo.flush();
+				fo.close();
+			}
+		} catch (IOException e) {
+			Log.exception(e);
+			Log.f("e : "+ e.toString());
+
+			return false;
+		}
+		return true;
+	}
+
 	
-	
-	public static boolean writeFile(Object obj, String path){
+	public static boolean writeFile(Object obj, String path)
+	{
 		if (path.equals("")) return false;
 		Gson gson = new Gson();
 		String json = gson.toJson(obj);
