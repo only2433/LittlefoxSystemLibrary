@@ -2,7 +2,8 @@ package com.littlefox.library.system.handler;
 
 import android.os.Handler;
 import android.os.Message;
-import net.littlefox.lf_app_fragment.handler.callback.MessageHandlerCallback;
+
+import com.littlefox.library.system.handler.callback.MessageHandlerCallback;
 
 import java.lang.ref.WeakReference;
 
