@@ -8,7 +8,6 @@ import com.littlefox.library.system.async.listener.AsyncListener;
 public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 {
 	protected Object mSync = new Object();
-	
 	protected boolean isRunning = false;
 	protected AsyncListener mAsyncListener;
 	protected Context mContext;
@@ -31,55 +30,42 @@ public abstract class BaseAsync extends AsyncTask<Void, Integer, Object>
 	protected void onPreExecute()
 	{
 		super.onPreExecute();
-		
 		if(mAsyncListener != null)
 		{
 			mAsyncListener.onRunningStart(mCode);
 		}
-		
 		isRunning = false;
 	}
-	
 
 	@Override
 	protected void onPostExecute(Object result)
 	{
 		super.onPostExecute(result);
-		
 		if(mAsyncListener != null && result != null)
 		{
 			mAsyncListener.onRunningEnd(mCode, result);
 		}
-		
 		isRunning = false;
 	}
-
 
 	@Override
 	protected void onProgressUpdate(Integer... values)
 	{
 		super.onProgressUpdate(values);
-		
 		if(mAsyncListener != null )
 		{
 			mAsyncListener.onRunningProgress(mCode, values[0]);
 		}
 	}
 
-
 	@Override
 	protected void onCancelled()
 	{
 		super.onCancelled();
-		
 		if(mAsyncListener != null )
 		{
 			mAsyncListener.onRunningCanceled(mCode);
 		}
-
 		isRunning = false;
 	}
-	
-	
-
 }
