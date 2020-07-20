@@ -15,8 +15,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FileUtils {
-
+public class FileUtils
+{
 
 	public static boolean writeFile(Object obj, File directory, String fileName)
 	{

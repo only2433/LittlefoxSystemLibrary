@@ -1,10 +1,10 @@
 package com.littlefox.library.system.root;
 
+import com.littlefox.logmonitor.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-
-import com.littlefox.logmonitor.Log;
 
 public class RootCheck
 {
@@ -24,7 +24,7 @@ public class RootCheck
 	/**
 	 * 루팅 파일이 존재하는지 체크.
 	 * 
-	 * @param file
+	 * @param filePaths
 	 * @return
 	 */
 	private static boolean checkRootingFiles(String[] filePaths)

@@ -24,14 +24,11 @@ public class WeakReferenceHandler extends Handler
     public void handleMessage(Message msg)
     {
         super.handleMessage(msg);
-
         MessageHandlerCallback result = (MessageHandlerCallback)mHandlerActivity.get();
-
         if(result == null)
         {
             return;
         }
-
         result.handlerMessage(msg);
     }
 }
