@@ -10,13 +10,17 @@ import java.util.*
 
 abstract class BaseCoroutine(protected var context: Context, protected var code : String)
 {
-    private lateinit var mContext : Context;
-    private lateinit var mCode : String;
-    private var mAsyncListener : AsyncListener? = null;
+    protected lateinit var mSync : Any;
+    protected lateinit var mContext : Context;
+    protected lateinit var mCode : String;
+    protected var isRunning : Boolean? = false;
+    protected var mAsyncListener : AsyncListener? = null;
+
 
     init {
         mContext = context;
         mCode = code;
+        mSync = Any();
     }
 
     fun setAsyncListener(asyncListener: AsyncListener?)
