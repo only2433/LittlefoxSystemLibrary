@@ -14,7 +14,7 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     protected lateinit var mContext : Context;
     protected lateinit var mCode : String;
     protected var isRunning : Boolean? = false;
-    protected var mAsyncListener : AsyncListener? = null;
+    protected var asyncListener : AsyncListener? = null;
 
 
     init {
@@ -23,10 +23,7 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
         mSync = Any();
     }
 
-    fun setAsyncListener(asyncListener: AsyncListener?)
-    {
-        mAsyncListener = asyncListener;
-    }
+
 
     abstract fun setData(vararg  `object`: Any?);
     abstract fun doInBackground() : Any;
@@ -35,11 +32,13 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     {
         var result: Any? = null;
         CoroutineScope(Dispatchers.Main).launch{
-            mAsyncListener!!.onRunningStart(mCode);
+            asyncListener!!.onRunningStart(mCode);
             CoroutineScope(Dispatchers.Default).async {
                 result = doInBackground();
             }.await();
-            mAsyncListener!!.onRunningEnd(mCode, result);
+            asyncListener!!.onRunningEnd(mCode, result);
         }
     }
+
+
 }
