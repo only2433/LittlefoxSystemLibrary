@@ -32,7 +32,6 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     {
         var result: Any? = null;
         CoroutineScope(Dispatchers.Main).launch{
-
             isRunning = false;
             asyncListener!!.onRunningStart(mCode);
 
