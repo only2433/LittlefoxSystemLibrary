@@ -32,10 +32,15 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     {
         var result: Any? = null;
         CoroutineScope(Dispatchers.Main).launch{
+
+            isRunning = true;
             asyncListener!!.onRunningStart(mCode);
+
             CoroutineScope(Dispatchers.Default).async {
                 result = doInBackground();
             }.await();
+
+            isRunning = false;
             asyncListener!!.onRunningEnd(mCode, result);
         }
     }
