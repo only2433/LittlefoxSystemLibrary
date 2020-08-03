@@ -2,10 +2,7 @@ package com.littlefox.library.system.coroutine
 
 import android.content.Context
 import com.littlefox.library.system.async.listener.AsyncListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 abstract class BaseCoroutine(protected var context: Context, protected var code : String)
@@ -15,7 +12,7 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     protected lateinit var mCode : String;
     protected var isRunning : Boolean? = false;
     protected var asyncListener : AsyncListener? = null;
-
+    protected var mJob: Job?= null;
 
     init {
         mContext = context;
@@ -31,7 +28,7 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     fun execute()
     {
         var result: Any? = null;
-        CoroutineScope(Dispatchers.Main).launch{
+        mJob = CoroutineScope(Dispatchers.Main).launch{
             isRunning = false;
             asyncListener!!.onRunningStart(mCode);
 
@@ -44,5 +41,12 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
         }
     }
 
+    fun cancel()
+    {
+        if(mJob!!.isActive)
+        {
+            mJob!!.cancel();
+        }
+    }
 
 }
