@@ -11,7 +11,7 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     protected lateinit var mContext : Context;
     protected lateinit var mCode : String;
     protected var isRunning : Boolean? = false;
-    protected var asyncListener : AsyncListener? = null;
+    public var asyncListener : AsyncListener? = null;
     protected var mJob: Job?= null;
 
     init {
