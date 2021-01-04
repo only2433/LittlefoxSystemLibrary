@@ -57,7 +57,8 @@ public class FileUtils
 		if (path.equals("")) return false;
 		Gson gson = new Gson();
 		String json = gson.toJson(obj);
-		
+
+
 		//String encriptString = SimpleCrypto.encrypt(json);
 		
 		File f = new File(path);
