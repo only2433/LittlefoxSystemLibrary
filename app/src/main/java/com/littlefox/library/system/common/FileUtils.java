@@ -292,12 +292,6 @@ public class FileUtils
 		
 	}
 
-	public static void createDirectory(String path)
-	{
-		File directory = new File(path);
-		if(!directory.exists())
-			directory.mkdirs();
-	}
 
 	public static boolean copyFile(File srcFile , File destFile)
 	{
