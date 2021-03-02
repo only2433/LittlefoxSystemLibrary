@@ -5,6 +5,7 @@ import com.google.gson.JsonParseException;
 import com.littlefox.logmonitor.Log;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -73,7 +74,8 @@ public class FileUtils
 		if (path.equals("")) return false;
 		Gson gson = new Gson();
 		String json = gson.toJson(obj);
-		
+
+
 		//String encriptString = SimpleCrypto.encrypt(json);
 		
 		File f = new File(path);
@@ -290,6 +292,13 @@ public class FileUtils
 		
 	}
 
+	public static void createDirectory(String path)
+	{
+		File directory = new File(path);
+		if(!directory.exists())
+			directory.mkdirs();
+	}
+
 	public static boolean copyFile(File srcFile , File destFile)
 	{
 		InputStream inputStream = null;
@@ -315,5 +324,33 @@ public class FileUtils
 		}
 
 		return true;
+	}
+
+	public static byte[] getFileBytes(File file) throws IOException
+	{
+		ByteArrayOutputStream ous = null;
+		InputStream ios = null;
+		try {
+			byte[] buffer = new byte[4096];
+			ous = new ByteArrayOutputStream();
+			ios = new FileInputStream(file);
+			int read = 0;
+			while ((read = ios.read(buffer)) != -1)
+				ous.write(buffer, 0, read);
+		} finally {
+			try {
+				if (ous != null)
+					ous.close();
+			} catch (IOException e) {
+				// swallow, since not that important
+			}
+			try {
+				if (ios != null)
+					ios.close();
+			} catch (IOException e) {
+				// swallow, since not that important
+			}
+		}
+		return ous.toByteArray();
 	}
 }

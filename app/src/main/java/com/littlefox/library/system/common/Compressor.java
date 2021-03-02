@@ -1,13 +1,15 @@
 package com.littlefox.library.system.common;
 
-import com.littlefox.logmonitor.Log;
 
-import net.lingala.zip4j.core.NativeStorage;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.model.ZipParameters;
-import net.lingala.zip4j.util.Zip4jConstants;
-
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by only340 on 2018-01-30.
@@ -15,77 +17,70 @@ import java.io.File;
 
 public class Compressor {
 
-    public static boolean zip(String targetPath, String destinationFilePath)
-    {
-        return zip(targetPath, destinationFilePath ,"");
-    }
+    private static int BUFFER_SIZE = 6 * 1024;
 
-    public static boolean zip(String targetPath, String destinationFilePath, String password)
+    public static void zip(String[] files, String zipFile) throws IOException
     {
+        BufferedInputStream origin = null;
+        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
         try {
-            ZipParameters parameters = new ZipParameters();
-            parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
-            parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
+            byte data[] = new byte[BUFFER_SIZE];
 
-            if (password.equals("") == false)
-            {
-                parameters.setEncryptFiles(true);
-                parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_AES);
-                parameters.setAesKeyStrength(Zip4jConstants.AES_STRENGTH_256);
-                parameters.setPassword(password);
-            }
-
-            ZipFile zipFile = new ZipFile(destinationFilePath);
-
-            File targetFile = new File(targetPath);
-            if (targetFile.isFile())
-            {
-                zipFile.addFile(targetFile, parameters);
-            }
-            else if (targetFile.isDirectory())
-            {
-                NativeStorage storage = new NativeStorage(targetFile);
-                zipFile.addFolder(storage, parameters);
-
-            }
-
-        } catch (Exception e)
-        {
-            Log.f("Exception : "+ e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean unzip(String targetZipFilePath, String destinationFolderPath)
-    {
-       return unzip(targetZipFilePath, destinationFolderPath, "");
-    }
-
-    public static boolean unzip(String targetZipFilePath, String destinationFolderPath, String password)
-    {
-        Log.i("targetZipFilePath : "+targetZipFilePath);
-        Log.i("destinationFolderPath : "+destinationFolderPath);
-        Log.i("password : "+password);
-        try {
-            ZipFile zipFile = new ZipFile(targetZipFilePath);
-
-            if(password.equals("") == false)
-            {
-                if (zipFile.isEncrypted())
-                {
-                    zipFile.setPassword(password);
+            for (int i = 0; i < files.length; i++) {
+                FileInputStream fi = new FileInputStream(files[i]);
+                origin = new BufferedInputStream(fi, BUFFER_SIZE);
+                try {
+                    ZipEntry entry = new ZipEntry(files[i].substring(files[i].lastIndexOf("/") + 1));
+                    out.putNextEntry(entry);
+                    int count;
+                    while ((count = origin.read(data, 0, BUFFER_SIZE)) != -1) {
+                        out.write(data, 0, count);
+                    }
+                } finally {
+                    origin.close();
                 }
             }
-
-            zipFile.extractAll(destinationFolderPath);
-
-        } catch (Exception e)
-        {
-            Log.f("Exception : "+ e.getMessage());
-            return false;
         }
+        finally {
+            out.close();
+        }
+    }
 
-        return true;
+    public static void unzip(String zipFile, String location) throws IOException {
+        try {
+            File f = new File(location);
+            if (!f.isDirectory()) {
+                f.mkdirs();
+            }
+            ZipInputStream zin = new ZipInputStream(new FileInputStream(zipFile));
+            try {
+                ZipEntry ze = null;
+                while ((ze = zin.getNextEntry()) != null) {
+                    String path = location + File.separator + ze.getName();
+
+                    if (ze.isDirectory()) {
+                        File unzipFile = new File(path);
+                        if (!unzipFile.isDirectory()) {
+                            unzipFile.mkdirs();
+                        }
+                    } else {
+                        FileOutputStream fout = new FileOutputStream(path, false);
+
+                        try {
+                            for (int c = zin.read(); c != -1; c = zin.read()) {
+                                fout.write(c);
+                            }
+                            zin.closeEntry();
+                        } finally {
+                            fout.close();
+                        }
+                    }
+                }
+            } finally {
+                zin.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

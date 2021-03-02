@@ -27,14 +27,13 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
     {
         var result: Any? = null;
         mJob = CoroutineScope(Dispatchers.Main).launch{
-            isRunning = false;
+
             asyncListener!!.onRunningStart(mCode);
 
             CoroutineScope(Dispatchers.Default).async {
                 result = doInBackground();
             }.await();
 
-            isRunning = false;
             asyncListener!!.onRunningEnd(mCode, result);
         }
     }
