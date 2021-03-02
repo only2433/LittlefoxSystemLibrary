@@ -18,6 +18,23 @@ import java.util.Arrays;
 public class FileUtils
 {
 
+	public static boolean createDirectory(String path)
+	{
+		try
+		{
+			File directory = new File(path);
+			if(directory.exists() == false)
+			{
+				directory.mkdir();
+			}
+			return true;
+		}catch (Exception e)
+		{
+			Log.f("error :  " +e.getMessage());
+			return false;
+		}
+	}
+
 	public static boolean writeFile(Object obj, File directory, String fileName)
 	{
 		if (fileName.equals("")) return false;

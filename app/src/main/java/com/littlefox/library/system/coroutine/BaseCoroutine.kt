@@ -20,8 +20,6 @@ abstract class BaseCoroutine(protected var context: Context, protected var code 
         mSync = Any();
     }
 
-
-
     abstract fun setData(vararg  `object`: Any?);
     abstract fun doInBackground() : Any;
 
