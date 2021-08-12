@@ -26,7 +26,7 @@ public class FileUtils
 			File directory = new File(path);
 			if(directory.exists() == false)
 			{
-				directory.mkdir();
+				directory.mkdirs();
 			}
 			return true;
 		}catch (Exception e)
