@@ -270,7 +270,8 @@ public class FileUtils
 			file.delete(); // root 삭제
 		}catch(NullPointerException e)
 		{
-			
+			Log.exception(e);
+			Log.f("e : "+ e.toString());
 		}
 		
 	}
