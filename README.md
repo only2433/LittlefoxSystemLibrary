@@ -17,6 +17,26 @@
 implementation 'com.github.only2433:LittlefoxSystemLibrary:2.0.12'
 ```
 
+# Usage
+#### 주요 사용 하는 모듈 
+- BaseCoroutine
+    ```
+    Base Coroutine 모듈은 비동기 프로그래밍을 위해 제공되며, 
+    개발자들이 간단하게 비동기 작업을 처리할 수 있도록 도와줍니다.
+    extends 해서 사용하면, 결과값 처리는 Async 내부 모듈 처럼 
+    처리 가능하여, AsyncTask를 사용하던 분들은 쉽게 Coroutine을 
+    사용할 수 있습니다.
+    ```
+- Compressor
+    ```
+    Compressor는 파일 압축 및 압축 해제를 위해 사용되며, 간단한 Method를 통해
+    압축 및 압축 해제 기능을 쉽게 사용할 수 있습니다. 
+    ```  
+- WeakReferenceHandler
+    ```
+    기존 Handler는 메모리가 누적되는 이슈가 있어서 사용하는 데 
+    위험요소가 있어 이를 해결하기 위해 만든 Handler 모듈
+    ```     
 # License
 본 프로젝트는 MIT 라이선스를 따릅니다.<br>
 자세한 내용은 [LICENSE](https://github.com/only2433/LittlefoxSystemLibrary/blob/master/LICENCE.md) 파일을 참고해주세요
